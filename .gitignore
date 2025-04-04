@@ -1,2 +1,7 @@
 .txt
 test.java
+App.java
+target/
+*.xml
+META-INF/
+javafx-app/
