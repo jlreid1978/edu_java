@@ -1,17 +1,53 @@
+public class Fly{
+    private double mass;
+    private double speed;
 
-public class Fly {
-    private double mass = 5.0;
-    private double speed = 10.0;
+    // Constructors
+    public Fly(double mass, double speed){
+        this.mass = mass;
+        this.speed = speed;
+    }
 
+
+    public Fly(double mass){
+        this(mass, 10.0);
+    }
+
+
+    public Fly(){
+        this(5.0, 10.0);
+    }
+
+
+    // Getters and setters
+    public double getMass(){
+        return mass;
+    }
+
+
+    public void setMass(double mass){
+        this.mass = mass;
+    }
+
+
+    public double getSpeed(){
+        return speed;
+    }
+
+
+    public void setSpeed(double speed){
+        this.speed = speed;
+    }
+      
 
     // Method returns status string of fly's condition
     public String toString(){
         String status;
         if (mass > 0){
-            status = "I'm a speedy fly with " + speed + " speed and " + mass + " mass.";
+            status = String.format("I'm a speedy fly with %.2f speed and %.2f mass.", speed, mass);
         }
         else{
-            status = "I'm dead, but I used to be a fly with a speed of " + speed + ".";
+            status = String.format("I'm dead, but I used to be a fly with a speed of %.2f.", speed);
         }
 
         return status;
@@ -23,29 +59,17 @@ public class Fly {
         mass = mass + increase;
 
         if (mass < 20){
-            speed = speed + increase;
-        }
-        else if (mass >= 20){
-            speed = (mass - 20) * 0.5;
+            speed += increase;
+        } else if (mass == 20){
+            speed = 10;
+        } else{
+            speed = Math.max(0.0, (mass - 20) * 0.5);
         }
     }
 
 
     // Method to check to see if fly is alive
     public boolean isDead(){
-        boolean dead = false;
-
-        if (mass <= 0){
-            dead = true;
-        }
-
-        return dead;
-    }
-
-
-    // Main method
-    public static void main(String[] args){
-
-    }
-      
+        return mass <= 0;
+    }      
 }
