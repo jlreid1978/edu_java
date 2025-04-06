@@ -1,4 +1,4 @@
-public class BlueAstronaut{
+public class BlueAstronaut extends Player implements Crewmate{
     private int numTasks;
     private int taskSpeed;
 
@@ -16,7 +16,7 @@ public class BlueAstronaut{
 
         Player mostSus = null;
 
-        for (Player p : players){
+        for (Player p : getPlayers()){
             if (!p.isFrozen() && !p.equals(this)){
                 if (mostSus == null || p.getSusLevel() > mostSus.getSusLevel()){
                     mostSus = p;
@@ -25,7 +25,7 @@ public class BlueAstronaut{
         }
 
         boolean tie = false;
-        for (Player p : players){
+        for (Player p : getPlayers()){
             if (!p.equals(this) && !p.isFrozen() && !p.equals(mostSus) && p.getSusLevel() == mostSus.getSusLevel()){
                 tie = true;
                 break;
@@ -33,7 +33,7 @@ public class BlueAstronaut{
         }
 
         if (!tie){
-            mostSus.freeze();
+            mostSus.setFrozen(true);
         }
     }
 

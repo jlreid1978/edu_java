@@ -1,4 +1,3 @@
-public class Crewmate{
-    public void completeTask(){}
-
+public interface Crewmate{
+    void completeTask();
 }
