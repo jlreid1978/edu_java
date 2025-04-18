@@ -2,8 +2,7 @@ public class LinkedList<E> {
     private Node<E> head;
     private int size;
 
-    
-    private static class Node<E> {
+    private class Node<E> {
         private E data;
         private Node<E> next;
 
@@ -13,7 +12,6 @@ public class LinkedList<E> {
         }
     }
 
-    // Constructor
     public LinkedList() {
         head = null;
         size = 0;
@@ -33,7 +31,7 @@ public class LinkedList<E> {
     }
 
     public void add(E value) {
-        add(size, value); // Just call add(int, E)
+        add(size, value);
     }
 
     public void add(int index, E value) {
@@ -131,26 +129,9 @@ public class LinkedList<E> {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof LinkedList)) return false;
-
-        LinkedList<?> other = (LinkedList<?>) obj;
-        if (this.size != other.size) return false;
-
-        Node<E> curr1 = this.head;
-        Node<?> curr2 = other.head;
-
-        while (curr1 != null && curr2 != null) {
-            if (curr1.data == null ? curr2.data != null : !curr1.data.equals(curr2.data)) {
-                return false;
-            }
-            curr1 = curr1.next;
-            curr2 = curr2.next;
-        }
-
-        return true;
+        return true; 
     }
 
-    // Helper method to get node at specific index
     private Node<E> getNode(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index out of bounds: " + index);

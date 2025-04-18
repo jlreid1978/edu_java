@@ -1,66 +1,60 @@
 public class Cat extends Pet {
     private int miceCaught;
 
-    // Constructor with miceCaught
     public Cat(String name, double health, int painLevel, int miceCaught) {
         super(name, health, painLevel);
-        if (miceCaught < 0) {
-            this.miceCaught = 0;
-        } else {
-            this.miceCaught = miceCaught;
-        }
+        this.miceCaught = (miceCaught < 0) ? 0 : miceCaught;
     }
 
-    // Default miceCaught 0
     public Cat(String name, double health, int painLevel) {
         this(name, health, painLevel, 0);
     }
 
-    // Getter
     public int getMiceCaught() {
         return miceCaught;
     }
 
-
+    @Override
     public int treat() {
-        heal(); // from Pet
-
-        double minutes;
+        double currentHealth = getHealth();
+        int currentPainLevel = getPainLevel();
+        int treatmentTime;
         if (miceCaught < 4) {
-            minutes = (getPainLevel() * 2) / getHealth();
-        } else if (miceCaught <= 7) {
-            minutes = getPainLevel() / getHealth();
+            treatmentTime = (int) Math.ceil((currentPainLevel * 2.0) / currentHealth);
         } else {
-            minutes = getPainLevel() / (getHealth() * 2);
+            treatmentTime = (int) Math.ceil(currentPainLevel / currentHealth);
         }
-
-        return (int) Math.ceil(minutes);
+        heal(); // Heal after treatment time is calculated
+        return treatmentTime;
     }
 
-
+    @Override
     public void speak() {
-        super.speak();
-
-        String meow = "meow";
-        String result = meow;
-
-        for (int i = 1; i < miceCaught; i++) {
-            result += " " + meow;
+        super.speak(); // Call the Pet's speak method
+        for (int i = 0; i < getMiceCaught(); i++) {
+            System.out.print("meow");
+            if (i < getMiceCaught() - 1) {
+                System.out.print(" ");
+            }
         }
-
-        if (getPainLevel() > 5) {
-            result = result.toUpperCase();
-        }
-
-        System.out.println(result);
+        System.out.println();
     }
 
-
+    @Override
     public boolean equals(Object o) {
-        if (o instanceof Cat) {
-            Cat other = (Cat) o;
-            return super.equals(o) && this.miceCaught == other.miceCaught;
-        }
-        return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Cat cat = (Cat) o;
+        return miceCaught == cat.miceCaught;
     }
+
+
+    @Override
+    public String toString() {
+        return super.toString() + String.format(" I caught %d %s today!", 
+            miceCaught, (miceCaught == 1 ? "mouse" : "mice"));
+    }
+    
+
 }

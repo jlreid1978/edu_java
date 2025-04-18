@@ -1,68 +1,60 @@
 public class Dog extends Pet {
     private double droolRate;
 
-    // Constructor with droolRate
     public Dog(String name, double health, int painLevel, double droolRate) {
         super(name, health, painLevel);
-        if (droolRate <= 0) {
-            this.droolRate = 0.5;
-        } else {
-            this.droolRate = droolRate;
-        }
+        this.droolRate = (droolRate <= 0) ? 0.5 : droolRate;
     }
 
-
-    // Constructor with default droolRate
     public Dog(String name, double health, int painLevel) {
         this(name, health, painLevel, 5.0);
     }
 
-
-    // Getter
     public double getDroolRate() {
         return droolRate;
     }
 
-
+    @Override
     public int treat() {
-        heal(); 
-
-        double minutes;
-        if (droolRate < 3.5) {
-            minutes = (getPainLevel() * 2) / getHealth();
-        } else if (droolRate <= 7.5) {
-            minutes = getPainLevel() / getHealth();
+        double currentHealth = getHealth();
+        int currentPainLevel = getPainLevel();
+        int treatmentTime;
+        if (droolRate < 5.0) {
+            treatmentTime = (int) Math.ceil((currentPainLevel * 2.0) / currentHealth);
         } else {
-            minutes = getPainLevel() / (getHealth() * 2);
+            treatmentTime = (int) Math.ceil(currentPainLevel / currentHealth);
         }
-
-        return (int) Math.ceil(minutes); 
+        heal(); // Heal after treatment time is calculated
+        return treatmentTime;
     }
 
 
+
+    @Override
     public void speak() {
-        super.speak(); 
-
-        String bark = "bark";
-        String result = bark;
-
-        for (int i = 1; i < getPainLevel(); i++) {
-            result += " " + bark;
+        super.speak(); // Call the Pet's speak method
+        for (int i = 0; i < getPainLevel(); i++) {
+            System.out.print("bark");
+            if (i < getPainLevel() - 1) {
+                System.out.print(" ");
+            }
         }
-
-        if (getPainLevel() > 5) {
-            result = result.toUpperCase();
-        }
-
-        System.out.println(result);
+        System.out.println();
     }
 
 
+    @Override
     public boolean equals(Object o) {
-        if (o instanceof Dog) {
-            Dog other = (Dog) o;
-            return super.equals(o) && this.droolRate == other.droolRate;
-        }
-        return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Dog dog = (Dog) o;
+        return Double.compare(dog.droolRate, droolRate) == 0;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + String.format(" I drool at a rate of %.2f liters per hour.", droolRate);
+    }
+
 }
